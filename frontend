@@ -1,0 +1,55 @@
+import React, { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ShoppingCart, Utensils } from "lucide-react";
+
+const restaurants = [
+  { id: 1, name: "Spicy Delight", cuisine: "Indian", color: "bg-red-500" },
+  { id: 2, name: "Sushi House", cuisine: "Japanese", color: "bg-blue-500" },
+  { id: 3, name: "Pasta Heaven", cuisine: "Italian", color: "bg-green-500" },
+];
+
+export default function FoodDeliveryApp() {
+  const [cart, setCart] = useState([]);
+
+  const addToCart = (restaurant) => {
+    setCart([...cart, restaurant]);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white p-6">
+      <h1 className="text-3xl font-bold text-center mb-6">Food Delivery App</h1>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {restaurants.map((restaurant) => (
+          <Card key={restaurant.id} className={`p-4 rounded-xl shadow-lg ${restaurant.color}`}>
+            <CardContent>
+              <h2 className="text-xl font-semibold">{restaurant.name}</h2>
+              <p className="text-sm opacity-80">{restaurant.cuisine} Cuisine</p>
+              <Button
+                className="mt-4 w-full bg-yellow-400 text-black hover:bg-yellow-300"
+                onClick={() => addToCart(restaurant)}
+              >
+                <ShoppingCart className="mr-2" size={16} /> Add to Cart
+              </Button>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+      <div className="mt-8 p-4 bg-gray-800 rounded-xl">
+        <h2 className="text-2xl font-semibold mb-4">Cart</h2>
+        {cart.length === 0 ? (
+          <p className="text-gray-400">No items added yet.</p>
+        ) : (
+          <ul className="space-y-2">
+            {cart.map((item, index) => (
+              <li key={index} className="flex items-center justify-between p-2 bg-gray-700 rounded-md">
+                <span>{item.name}</span>
+                <Utensils className="text-yellow-400" size={18} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+}
